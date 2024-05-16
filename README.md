@@ -1,8 +1,9 @@
 ## Make root file system
 
 ### preface
-this repo is copied from my dear friend，and save here just for backup and remember, the most important is that it can help others.
-the source code from:
+This repo is copied from my dear friend，and save here just for backup and remember, the most important is that it can help others.
+
+The source code from:
    https://github.com/vernon2gh/make_rootfs/tree/main
 
 
