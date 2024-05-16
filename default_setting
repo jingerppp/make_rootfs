@@ -1,0 +1,35 @@
+#!/bin/bash
+
+apt update
+
+## Install language package
+apt install -y language-pack-en language-pack-zh-hans xterm
+
+## Install systemd package
+mv /run/systemd/resolve/stub-resolv.conf /run/systemd/resolve/stub-resolv.conf.back
+apt install -y systemd-sysv
+sed -i "s/^BindsTo=dev-%i.device/BindsTo=dev-%i/" /lib/systemd/system/serial-getty@.service
+mv /run/systemd/resolve/stub-resolv.conf.back /run/systemd/resolve/stub-resolv.conf
+
+## Insatll udev package
+apt install -y udev
+
+## Login root user automatically
+sed -i "s/-o '-p -- \\\\\\\u'/-a root/" /lib/systemd/system/serial-getty@.service
+
+## Modify host name
+echo "test-pc" > /etc/hostname
+
+## Set terminal color
+echo "export TERM=xterm-256color" >> /root/.bash_aliases
+
+## Resize the window after each login bash
+echo "eval \`/usr/bin/resize\`" >> /root/.bashrc
+
+## Enable network
+systemctl enable systemd-networkd
+
+echo "[Match]" > /etc/systemd/network/eth.network
+echo "Name=*" >> /etc/systemd/network/eth.network
+echo "[Network]" >> /etc/systemd/network/eth.network
+echo "DHCP=yes" >> /etc/systemd/network/eth.network
